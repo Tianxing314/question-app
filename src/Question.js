@@ -13,25 +13,26 @@ class Question extends Component {
     this.getNewQuestion = this.getNewQuestion.bind(this);
   }
 
+  //Handle answer selection from radio button input
   onAnsChange = (event) => {
     this.setState({
       selectedAns:event.target.value
     });
   }
 
+  //Handle form submission
   onAnsSubmit = (event) => {
     event.preventDefault();
-    if (this.state.submitCount === 5) {
+    if (this.state.submitCount === 5) { // submitCount reaches 5
         alert("No more chance!");
         return;
     }
-    let correctAns = this.props.currentQuestion.answer
-    this.setState( prevState => ({ submitCount: prevState.submitCount + 1}));
-    console.log(this.state.selectedAns);
-    console.log(correctAns);
-    if (this.state.selectedAns == correctAns) {
+    let correctAns = this.props.currentQuestion.answer // get correct answer from question
+    this.setState( prevState => ({ submitCount: prevState.submitCount + 1})); //increment submitCount
+
+    if (this.state.selectedAns == correctAns) { //Check for correctness
       alert("Correct!");
-      this.state.setState({
+      this.setState({ //restart: reset state variable
         submitCount:0,
         selectedAns:null
       });
@@ -46,13 +47,12 @@ class Question extends Component {
       }
     }
   }
-  
+
+  //make GET request to retrieve new question from the server
   getNewQuestion() {
     axios({
             method:"get", url:"http://localhost:5000/question"
             }).then(res => {
-              console.log(res);
-              console.log(res.data)
               this.props.getQuestion(res.data);
             }).catch(Error => {
               //handle Error for get question request
@@ -61,7 +61,7 @@ class Question extends Component {
   }
 
   render() {
-
+    //Get the question to be rendered
     let questionToShow = this.props.currentQuestion;
     
     return (
@@ -85,7 +85,6 @@ class Question extends Component {
                   <input type="submit" value="Submit"/>
              </form>
         )}
-
       </div>
     );
   }

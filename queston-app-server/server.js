@@ -1,15 +1,13 @@
 const express = require('express');
-// const session = require('express-session');
 
 const port = 5000;
 const app = express();
 
+//resolves cross origin resourcing sharing problem
 const cors=require("cors");
-
-const LIMIT = 5;
-
 app.use(cors());
 
+//mock question data
 const questionList = [
     {
         expression: "2 + 2 * 4",
@@ -58,15 +56,16 @@ const questionList = [
     },
 ];
 
+//handle post request from login
 app.post('/login', function(req, res) {
     let response = {
         code:200,
         message:"login succeed"
     };
     res.end(JSON.stringify(response));
-
 });
 
+//handle get request for new question
 app.get('/question', function(req, res) {
     console.log(req);
      let question = questionList[Math.floor(Math.random() * questionList.length)];

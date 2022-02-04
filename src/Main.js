@@ -15,15 +15,16 @@ class Main extends React.Component {
     this.state = {isLoggedIn: false,
                   loginAttemptFail: false,
                   currentQuestion: null};
-
   }
 
+  //Pass this function to Question class to update parent state from child class
   setQuestion(question) {
     this.setState({
         currentQuestion:question
     })
   }
 
+  //Handle login post request and get the first question request after clicking login
   loginHandler() {
     axios({
       //make POST request to login
